@@ -89,7 +89,7 @@
 
 // Thermostat - Sieger - 0x10 / 0x17
 { 66, DeviceType::THERMOSTAT, F("ES72/RC20"), DeviceFlags::EMS_DEVICE_FLAG_RC20_N}, // 0x17 or remote
-{ 76, DeviceType::THERMOSTAT, F("ES73"), DeviceFlags::EMS_DEVICE_FLAG_RC35}, // 0x10
+{ 76, DeviceType::THERMOSTAT, F("ES73"), DeviceFlags::EMS_DEVICE_FLAG_RC30_N}, // 0x10
 {113, DeviceType::THERMOSTAT, F("ES72/RC20"), DeviceFlags::EMS_DEVICE_FLAG_RC20_N}, // 0x17
 
 // Thermostat - Junkers - 0x10
