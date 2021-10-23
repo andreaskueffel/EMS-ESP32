@@ -364,6 +364,7 @@ MAKE_PSTR_LIST(enum_progMode4, F("prog_a"), F("prog_b"), F("prog_c"), F("prog_d"
 // solar list
 MAKE_PSTR_LIST(enum_solarmode, F_(constant), F("pwm"), F("analog"))
 MAKE_PSTR_LIST(enum_collectortype, F("flat"), F("vacuum"))
+MAKE_PSTR_LIST(enum_cylprio, F("cyl_1"), F("cyl_2"))
 
 // MQTT topics and full text for values and commands
 MAKE_PSTR(homeassistant, "homeassistant/")
@@ -511,7 +512,7 @@ MAKE_PSTR_LIST(wwActive, F("wwactive"), F("active"))
 MAKE_PSTR_LIST(wwHeat, F("wwheat"), F("heating"))
 MAKE_PSTR_LIST(wwSetPumpPower, F("wwsetpumppower"), F("set pump power"))
 MAKE_PSTR_LIST(wwMixerTemp, F("wwMixerTemp"), F("mixer temperature"))
-MAKE_PSTR_LIST(wwTankMiddleTemp, F("wwtankmiddletemp"), F("tank middle temperature (TS3)"))
+MAKE_PSTR_LIST(wwCylMiddleTemp, F("wwcylmiddletemp"), F("cylinder middle temperature (TS3)"))
 MAKE_PSTR_LIST(wwStarts, F("wwstarts"), F("starts"))
 MAKE_PSTR_LIST(wwWorkM, F("wwworkm"), F("active time"))
 MAKE_PSTR_LIST(wwHystOn, F("wwhyston"), F("hysteresis on temperature"))
@@ -609,19 +610,27 @@ MAKE_PSTR_LIST(wwTemp, F("wwtemp"), F("current temperature"))
 // solar
 MAKE_PSTR_LIST(type, F("type"), F("type"))
 MAKE_PSTR_LIST(collectorTemp, F("collectortemp"), F("collector temperature (TS1)"))
-MAKE_PSTR_LIST(tankBottomTemp, F("tankbottomtemp"), F("tank bottom temperature (TS2)"))
-MAKE_PSTR_LIST(tank2BottomTemp, F("tank2bottomtemp"), F("second tank bottom temperature (TS5)"))
+MAKE_PSTR_LIST(collector2Temp, F("collector2temp"), F("collector 2 temperature (TS4)"))
+MAKE_PSTR_LIST(cylBottomTemp, F("cylbottomtemp"), F("cylinder bottom temperature (TS2)"))
+MAKE_PSTR_LIST(cyl2BottomTemp, F("cyl2bottomtemp"), F("second cylinder bottom temperature (TS5)"))
 MAKE_PSTR_LIST(heatExchangerTemp, F("heatexchangertemp"), F("heat exchanger temperature (TS6)"))
+MAKE_PSTR_LIST(TS14, F("ts14"), F("differential cylinder temperature (TS14)"))
+MAKE_PSTR_LIST(TS15, F("ts15"), F("differential retu rn temperature (TS15)"))
+MAKE_PSTR_LIST(M1, F("m1active"), F("differential control active"))
 MAKE_PSTR_LIST(collectorMaxTemp, F("collectormaxtemp"), F("maximum collector temperature"))
 MAKE_PSTR_LIST(collectorMinTemp, F("collectormintemp"), F("minimum collector temperature"))
-MAKE_PSTR_LIST(tankMaxTemp, F("tankmaxtemp"), F("maximum tank temperature"))
-MAKE_PSTR_LIST(solarPumpModulation, F("solarpumpmodulation"), F("pump modulation (PS1)"))
-MAKE_PSTR_LIST(cylinderPumpModulation, F("cylinderpumpmodulation"), F("cylinder pump modulation (PS5)"))
-MAKE_PSTR_LIST(solarPump, F("solarpump"), F("pump (PS1)"))
+MAKE_PSTR_LIST(cylMaxTemp, F("cylmaxtemp"), F("maximum cylinder temperature"))
+MAKE_PSTR_LIST(cyl2MaqTemp, F("cyl2maxtemp"), F("maximum cylinder 2 temperature"))
+MAKE_PSTR_LIST(solarPumpMod, F("solarpumpmod"), F("solar pump modulation (PS1)"))
+MAKE_PSTR_LIST(cylPumpMod, F("cylpumpmod"), F("cylinder pump modulation (PS5)"))
+MAKE_PSTR_LIST(solarPump, F("solarpump"), F("solar pump (PS1)"))
+MAKE_PSTR_LIST(solar2Pump, F("solar2pump"), F("solar pump 2 (PS4)"))
 MAKE_PSTR_LIST(valveStatus, F("valvestatus"), F("valve status"))
-MAKE_PSTR_LIST(tankHeated, F("tankheated"), F("tank heated"))
+MAKE_PSTR_LIST(cylHeated, F("cylheated"), F("cyl heated"))
 MAKE_PSTR_LIST(collectorShutdown, F("collectorshutdown"), F("collector shutdown"))
 MAKE_PSTR_LIST(pumpWorkTime, F("pumpworktime"), F("pump working time"))
+MAKE_PSTR_LIST(pump2WorkTime, F("pump2worktime"), F("pump 2 working time"))
+MAKE_PSTR_LIST(m1WorkTime, F("m1worktime"), F("differential control working time"))
 MAKE_PSTR_LIST(energyLastHour, F("energylasthour"), F("energy last hour"))
 MAKE_PSTR_LIST(energyTotal, F("energytotal"), F("energy total"))
 MAKE_PSTR_LIST(energyToday, F("energytoday"), F("energy today"))
@@ -640,7 +649,7 @@ MAKE_PSTR_LIST(solarPumpTurnoffDiff, F("turnoffdiff"), F("pump turn off differen
 
 // Solar SM100
 MAKE_PSTR_LIST(heatTransferSystem, F("heattransfersystem"), F("heattransfer system"))
-MAKE_PSTR_LIST(externalTank, F("externaltank"), F("external tank"))
+MAKE_PSTR_LIST(externalCyl, F("externalcyl"), F("external cylinder"))
 MAKE_PSTR_LIST(thermalDisinfect, F("thermaldisinfect"), F("thermal disinfection"))
 MAKE_PSTR_LIST(heatMetering, F("heatmetering"), F("heatmetering"))
 
@@ -650,10 +659,15 @@ MAKE_PSTR_LIST(solarPumpKick, F("pumpkick"), F("pumpkick"))
 MAKE_PSTR_LIST(plainWaterMode, F("plainwatermode"), F("plain water mode"))
 MAKE_PSTR_LIST(doubleMatchFlow, F("doublematchflow"), F("doublematchflow"))
 
+// telegram 0x035F
+MAKE_PSTR_LIST(cylPriority, F("cylpriority"), F("solar cylinder priority"))
+
 // telegram 0x380
 MAKE_PSTR_LIST(climateZone, F("climatezone"), F("climate zone"))
 MAKE_PSTR_LIST(collector1Area, F("collector1area"), F("collector 1 area"))
 MAKE_PSTR_LIST(collector1Type, F("collector1type"), F("collector 1 type"))
+MAKE_PSTR_LIST(collector2Area, F("collector2area"), F("collector 2 area"))
+MAKE_PSTR_LIST(collector2Type, F("collector2type"), F("collector 2 type"))
 
 // switch
 MAKE_PSTR_LIST(activated, F("activated"), F("activated"))

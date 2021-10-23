@@ -32,19 +32,27 @@ class Solar : public EMSdevice {
   private:
     static uuid::log::Logger logger_;
 
-    int16_t  collectorTemp_;          // TS1: Temperature sensor for collector array 1
-    int16_t  tankBottomTemp_;         // TS2: Temperature sensor 1 cylinder, bottom tank (solar thermal system)
-    int16_t  tankBottomTemp2_;        // TS5: Temperature sensor 2 cylinder, bottom tank, or swimming pool (solar thermal system)
-    int16_t  heatExchangerTemp_;      // TS6: Heat exchanger temperature sensor
-    uint8_t  solarPumpModulation_;    // PS1: modulation solar pump
-    uint8_t  cylinderPumpModulation_; // PS5: modulation cylinder pump
-    uint8_t  solarPump_;              // PS1: solar pump active
-    uint8_t  valveStatus_;            // VS2: status 3-way valve for cylinder 2 (solar thermal system) with valve
+    int16_t  collectorTemp_;     // TS1: Temperature sensor for collector array 1
+    int16_t  cylBottomTemp_;     // TS2: Temperature sensor 1 cylinder, bottom cyl (solar thermal system)
+    int16_t  cylBottomTemp2_;    // TS5: Temperature sensor 2 cylinder, bottom cyl, or swimming pool (solar thermal system)
+    int16_t  heatExchangerTemp_; // TS6: Heat exchanger temperature sensor
+    int16_t  collector2Temp_;    // TS7: Temperature sensor for collector array 2
+    int16_t  TS14_;              // TS14: Bypass cylinder
+    int16_t  TS15_;              // TS15: Bypass return
+    uint8_t  solarPumpMod_;      // PS1: modulation solar pump
+    uint8_t  cylPumpMod_;        // PS5: modulation cylinder pump
+    uint8_t  solarPump_;         // PS1: solar pump active
+    uint8_t  valveStatus_;       // VS2: status 3-way valve for cylinder 2 (solar thermal system) with valve
+    uint8_t  solar2Pump_;        // PS4: solar 2 pump active
+    uint8_t  M1_;                // M1:  differential control valve
+
     uint32_t energyLastHour_;
     uint32_t energyToday_;
     uint32_t energyTotal_;
-    uint32_t pumpWorkTime_; // Total solar pump operating time
-    uint8_t  tankHeated_;
+    uint32_t pumpWorkTime_;  // Total solar pump operating time
+    uint32_t pump2WorkTime_; // Total solar pump 2 operating time
+    uint32_t m1WorkTime_;    // differential control work time
+    uint8_t  cylHeated_;
     uint8_t  collectorShutdown_; // Collector shutdown on/off
 
     uint8_t availabilityFlag_;
@@ -53,27 +61,32 @@ class Solar : public EMSdevice {
 
     // telegram 0x0358
     uint8_t heatTransferSystem_; // Umladesystem, 00=no
-    uint8_t externalTank_;       // Heat exchanger, 00=no
+    uint8_t externalCyl_;        // Heat exchanger, 00=no
     uint8_t thermalDisinfect_;   // Daily heatup for disinfection, 00=no
     uint8_t heatMetering_;       // Wärmemengenzählung, 00=no
     uint8_t solarIsEnabled_;     // System enable, 00=no
 
     // telegram 0x035A
     uint8_t collectorMaxTemp_;     // maximum allowed collectorTemp array 1
-    uint8_t tankMaxTemp_;          // Current value for max tank temp
+    uint8_t cylMaxTemp_;           // Current value for max cyl temp
     uint8_t collectorMinTemp_;     // minimum allowed collectorTemp array 1
     uint8_t solarPumpMode_;        // 00=off, 01=PWM, 02=10V
-    uint8_t solarPumpMinMod_;      // minimum modulation setting, *5 %
-    uint8_t solarPumpTurnoffDiff_; // solar pump turnoff collector/tank diff
-    uint8_t solarPumpTurnonDiff_;  // solar pump turnon collector/tank diff
+    uint8_t solarPumpMinMod_;      // minimum modulation setting
+    uint8_t solarPumpTurnoffDiff_; // solar pump turnoff collector/cyl diff
+    uint8_t solarPumpTurnonDiff_;  // solar pump turnon collector/cyl diff
     uint8_t solarPumpKick_;        // pump kick for vacuum collector, 00=off
     uint8_t plainWaterMode_;       // system does not use antifreeze, 00=off
     uint8_t doubleMatchFlow_;      // double Match Flow, 00=off
+
+    // telegram 0x035F
+    uint8_t cylPriority_;  // 0 or 1
 
     // telegram 0x380
     uint8_t  climateZone_;    // climate zone identifier
     uint16_t collector1Area_; // Area of collector field 1
     uint8_t  collector1Type_; // Type of collector field 1, 01=flat, 02=vacuum
+    uint16_t collector2Area_; // Area of collector field 2
+    uint8_t  collector2Type_; // Type of collector field 2, 01=flat, 02=vacuum
 
     // SM100wwTemperature - 0x07D6
     uint8_t wwTemp_1_;
@@ -104,6 +117,7 @@ class Solar : public EMSdevice {
     void process_SM100Monitor2(std::shared_ptr<const Telegram> telegram);
 
     void process_SM100Config(std::shared_ptr<const Telegram> telegram);
+    void process_SM100Config1(std::shared_ptr<const Telegram> telegram);
 
     void process_SM100Status(std::shared_ptr<const Telegram> telegram);
     void process_SM100Status2(std::shared_ptr<const Telegram> telegram);
@@ -121,7 +135,7 @@ class Solar : public EMSdevice {
 
     bool set_CollectorMaxTemp(const char * value, const int8_t id);
     bool set_CollectorMinTemp(const char * value, const int8_t id);
-    bool set_TankMaxTemp(const char * value, const int8_t id);
+    bool set_cylMaxTemp(const char * value, const int8_t id);
     bool set_PumpMinMod(const char * value, const int8_t id);
     bool set_wwMinTemp(const char * value, const int8_t id);
     bool set_TurnonDiff(const char * value, const int8_t id);
@@ -130,7 +144,7 @@ class Solar : public EMSdevice {
     bool set_SM10MaxFlow(const char * value, const int8_t id);
     // SM100
     bool set_heatTransferSystem(const char * value, const int8_t id);
-    bool set_externalTank(const char * value, const int8_t id);
+    bool set_externalCyl(const char * value, const int8_t id);
     bool set_thermalDisinfect(const char * value, const int8_t id);
     bool set_heatMetering(const char * value, const int8_t id);
     bool set_solarEnabled(const char * value, const int8_t id);
@@ -141,6 +155,9 @@ class Solar : public EMSdevice {
     bool set_climateZone(const char * value, const int8_t id);
     bool set_collector1Area(const char * value, const int8_t id);
     bool set_collector1Type(const char * value, const int8_t id);
+    bool set_collector2Area(const char * value, const int8_t id);
+    bool set_collector2Type(const char * value, const int8_t id);
+    bool set_cylPriority(const char * value, const int8_t id);
 };
 
 } // namespace emsesp

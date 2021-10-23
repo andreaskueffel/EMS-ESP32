@@ -17,6 +17,8 @@
 - Added support for mDNS [#161](https://github.com/emsesp/EMS-ESP32/issues/161)
 - Added last system ESP32 reset code to log (and `system info` output)
 - Firmware Checker in WebUI [#168](https://github.com/emsesp/EMS-ESP32/issues/168)
+- solar cylinder priority [#137](https://github.com/emsesp/EMS-ESP32/issues/137)
+- second solar collector field [#164](https://github.com/emsesp/EMS-ESP32/issues/164)
 
 ## Fixed
 
@@ -36,6 +38,7 @@
 - Use program-names instead of numbers
 - Boiler's maintenancemessage always published in MQTT (to prevent HA missing entity)
 - Unit of Measure 'times' added to MQTT Fails, Rx fails, Rx received, Tx fails, Tx reads & Tx writes
+- renamed some solar parameters [#137]
 
 ## **BREAKING CHANGES**
 
@@ -44,3 +47,4 @@
 - HA: `binary_sensor.boiler_ww_disinfecting` renamed to `binary_sensor.boiler_ww_disinfection`
 - HA: # removed from counts in MQTT Fails, Rx fails, Rx received, Tx fails, Tx reads & Tx writes
 - `txread` renamed to `txreads` and `txwrite` renamed to `txwrites` in MQTT heartbeat payload
+- renamed `tank` to `cyl`/`cylinder`

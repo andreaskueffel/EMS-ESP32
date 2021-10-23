@@ -88,9 +88,9 @@ class Boiler : public EMSdevice {
     uint32_t wwWorkM_;            // Warm Water minutes
     int8_t   wwHystOn_;
     int8_t   wwHystOff_;
-    uint8_t  wwTapActivated_;   // maintenance-mode to switch DHW off
-    uint16_t wwMixerTemp_;      // mixing temperature
-    uint16_t wwTankMiddleTemp_; // Tank middle temperature (TS3)
+    uint8_t  wwTapActivated_;  // maintenance-mode to switch DHW off
+    uint16_t wwMixerTemp_;     // mixing temperature
+    uint16_t wwCylMiddleTemp_; // Tank middle temperature (TS3)
 
     // main
     uint8_t  id_;               // product id

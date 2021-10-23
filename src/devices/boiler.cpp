@@ -256,7 +256,7 @@ Boiler::Boiler(uint8_t device_type, int8_t device_id, uint8_t product_id, const 
     register_device_value(TAG_DEVICE_DATA_WW, &wwHeat_, DeviceValueType::BOOL, nullptr, FL_(wwHeat), DeviceValueUOM::NONE);
     register_device_value(TAG_DEVICE_DATA_WW, &wwSetPumpPower_, DeviceValueType::UINT, nullptr, FL_(wwSetPumpPower), DeviceValueUOM::PERCENT);
     register_device_value(TAG_DEVICE_DATA_WW, &wwMixerTemp_, DeviceValueType::USHORT, FL_(div10), FL_(wwMixerTemp), DeviceValueUOM::DEGREES);
-    register_device_value(TAG_DEVICE_DATA_WW, &wwTankMiddleTemp_, DeviceValueType::USHORT, FL_(div10), FL_(wwTankMiddleTemp), DeviceValueUOM::DEGREES);
+    register_device_value(TAG_DEVICE_DATA_WW, &wwCylMiddleTemp_, DeviceValueType::USHORT, FL_(div10), FL_(wwCylMiddleTemp), DeviceValueUOM::DEGREES);
     register_device_value(TAG_DEVICE_DATA_WW, &wwStarts_, DeviceValueType::ULONG, nullptr, FL_(wwStarts), DeviceValueUOM::TIMES);
     register_device_value(TAG_DEVICE_DATA_WW, &wwWorkM_, DeviceValueType::TIME, nullptr, FL_(wwWorkM), DeviceValueUOM::MINUTES);
 
@@ -735,7 +735,7 @@ void Boiler::process_HpPool(std::shared_ptr<const Telegram> telegram) {
 // see https://github.com/emsesp/EMS-ESP/issues/397
 void Boiler::process_MC110Status(std::shared_ptr<const Telegram> telegram) {
     has_update(telegram->read_value(wwMixerTemp_, 14));
-    has_update(telegram->read_value(wwTankMiddleTemp_, 18));
+    has_update(telegram->read_value(wwCylMiddleTemp_, 18));
 }
 
 /*
