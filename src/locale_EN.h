@@ -186,6 +186,7 @@ MAKE_PSTR(dbm, "dBm")
 MAKE_PSTR(mv, "mV")
 MAKE_PSTR(times, "times")
 MAKE_PSTR(oclock, "o'clock")
+MAKE_PSTR(sqm, "sqm")
 
 // TAG mapping - maps to DeviceValueTAG_s in emsdevice.cpp
 // use empty string if want to suppress showing tags
@@ -615,16 +616,16 @@ MAKE_PSTR_LIST(cylBottomTemp, F("cylbottomtemp"), F("cylinder bottom temperature
 MAKE_PSTR_LIST(cyl2BottomTemp, F("cyl2bottomtemp"), F("second cylinder bottom temperature (TS5)"))
 MAKE_PSTR_LIST(heatExchangerTemp, F("heatexchangertemp"), F("heat exchanger temperature (TS6)"))
 MAKE_PSTR_LIST(TS14, F("ts14"), F("differential cylinder temperature (TS14)"))
-MAKE_PSTR_LIST(TS15, F("ts15"), F("differential retu rn temperature (TS15)"))
+MAKE_PSTR_LIST(TS15, F("ts15"), F("differential return temperature (TS15)"))
 MAKE_PSTR_LIST(M1, F("m1active"), F("differential control active"))
 MAKE_PSTR_LIST(collectorMaxTemp, F("collectormaxtemp"), F("maximum collector temperature"))
 MAKE_PSTR_LIST(collectorMinTemp, F("collectormintemp"), F("minimum collector temperature"))
 MAKE_PSTR_LIST(cylMaxTemp, F("cylmaxtemp"), F("maximum cylinder temperature"))
-MAKE_PSTR_LIST(cyl2MaqTemp, F("cyl2maxtemp"), F("maximum cylinder 2 temperature"))
-MAKE_PSTR_LIST(solarPumpMod, F("solarpumpmod"), F("solar pump modulation (PS1)"))
+// MAKE_PSTR_LIST(cyl2MaxTemp, F("cyl2maxtemp"), F("maximum cylinder 2 temperature"))
+MAKE_PSTR_LIST(solarPumpMod, F("solarpumpmod"), F("pump modulation (PS1)"))
 MAKE_PSTR_LIST(cylPumpMod, F("cylpumpmod"), F("cylinder pump modulation (PS5)"))
-MAKE_PSTR_LIST(solarPump, F("solarpump"), F("solar pump (PS1)"))
-MAKE_PSTR_LIST(solar2Pump, F("solar2pump"), F("solar pump 2 (PS4)"))
+MAKE_PSTR_LIST(solarPump, F("solarpump"), F("pump (PS1)"))
+// MAKE_PSTR_LIST(solar2Pump, F("solar2pump"), F("pump 2 (PS4)"))
 MAKE_PSTR_LIST(valveStatus, F("valvestatus"), F("valve status"))
 MAKE_PSTR_LIST(cylHeated, F("cylheated"), F("cyl heated"))
 MAKE_PSTR_LIST(collectorShutdown, F("collectorshutdown"), F("collector shutdown"))
@@ -654,13 +655,13 @@ MAKE_PSTR_LIST(thermalDisinfect, F("thermaldisinfect"), F("thermal disinfection"
 MAKE_PSTR_LIST(heatMetering, F("heatmetering"), F("heatmetering"))
 
 // telegram 0x035A
-MAKE_PSTR_LIST(solarPumpMode, F("solarpumpmode"), F("solar pump mode"))
+MAKE_PSTR_LIST(solarPumpMode, F("solarpumpmode"), F("pump mode"))
 MAKE_PSTR_LIST(solarPumpKick, F("pumpkick"), F("pumpkick"))
 MAKE_PSTR_LIST(plainWaterMode, F("plainwatermode"), F("plain water mode"))
 MAKE_PSTR_LIST(doubleMatchFlow, F("doublematchflow"), F("doublematchflow"))
 
 // telegram 0x035F
-MAKE_PSTR_LIST(cylPriority, F("cylpriority"), F("solar cylinder priority"))
+MAKE_PSTR_LIST(cylPriority, F("cylpriority"), F("cylinder priority"))
 
 // telegram 0x380
 MAKE_PSTR_LIST(climateZone, F("climatezone"), F("climate zone"))

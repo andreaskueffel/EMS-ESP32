@@ -120,7 +120,7 @@ Solar::Solar(uint8_t device_type, uint8_t device_id, uint8_t product_id, const s
         register_device_value(TAG_NONE, &TS14_, DeviceValueType::SHORT, FL_(div10), FL_(TS14), DeviceValueUOM::DEGREES);
         register_device_value(TAG_NONE, &TS15_, DeviceValueType::SHORT, FL_(div10), FL_(TS15), DeviceValueUOM::DEGREES);
         register_device_value(TAG_NONE, &M1_, DeviceValueType::BOOL, nullptr, FL_(M1), DeviceValueUOM::NONE);
-        register_device_value(TAG_NONE, &solar2Pump_, DeviceValueType::BOOL, nullptr, FL_(solar2Pump), DeviceValueUOM::NONE);
+        // register_device_value(TAG_NONE, &solar2Pump_, DeviceValueType::BOOL, nullptr, FL_(solar2Pump), DeviceValueUOM::NONE);
         register_device_value(TAG_NONE, &cylBottomTemp2_, DeviceValueType::SHORT, FL_(div10), FL_(cyl2BottomTemp), DeviceValueUOM::DEGREES);
         register_device_value(TAG_NONE, &heatExchangerTemp_, DeviceValueType::SHORT, FL_(div10), FL_(heatExchangerTemp), DeviceValueUOM::DEGREES);
         register_device_value(TAG_NONE, &cylPumpMod_, DeviceValueType::UINT, nullptr, FL_(cylPumpMod), DeviceValueUOM::PERCENT);
@@ -177,7 +177,7 @@ Solar::Solar(uint8_t device_type, uint8_t device_id, uint8_t product_id, const s
                               DeviceValueType::USHORT,
                               FL_(div10),
                               FL_(collector1Area),
-                              DeviceValueUOM::NONE,
+                              DeviceValueUOM::SQM,
                               MAKE_CF_CB(set_collector1Area)); // Area of collector field 1
         register_device_value(TAG_NONE,
                               &collector1Type_,
@@ -191,16 +191,16 @@ Solar::Solar(uint8_t device_type, uint8_t device_id, uint8_t product_id, const s
                               DeviceValueType::USHORT,
                               FL_(div10),
                               FL_(collector2Area),
-                              DeviceValueUOM::NONE,
-                              MAKE_CF_CB(set_collector2Area)); // Area of collector field 1
+                              DeviceValueUOM::SQM,
+                              MAKE_CF_CB(set_collector2Area)); // Area of collector field 2
         register_device_value(TAG_NONE,
                               &collector2Type_,
                               DeviceValueType::ENUM,
                               FL_(enum_collectortype),
                               FL_(collector2Type),
                               DeviceValueUOM::NONE,
-                              MAKE_CF_CB(set_collector2Type)); // Type of collector field 1, 01=flat, 02=vacuum
-        register_device_value(TAG_NONE, &cylPriority_, DeviceValueType::UINT, FL_(enum_cylprio), FL_(cylPriority), DeviceValueUOM::NONE, MAKE_CF_CB(set_cylPriority));
+                              MAKE_CF_CB(set_collector2Type)); // Type of collector field 2, 01=flat, 02=vacuum
+        register_device_value(TAG_NONE, &cylPriority_, DeviceValueType::ENUM, FL_(enum_cylprio), FL_(cylPriority), DeviceValueUOM::NONE, MAKE_CF_CB(set_cylPriority));
     }
 }
 
@@ -455,8 +455,14 @@ void Solar::process_SM100CollectorConfig(std::shared_ptr<const Telegram> telegra
     has_update(telegram->read_value(climateZone_, 0));
     has_update(telegram->read_value(collector1Area_, 3));
     has_update(telegram->read_enumvalue(collector1Type_, 5, 1));
-    has_update(telegram->read_value(collector2Area_, 6));
-    has_update(telegram->read_enumvalue(collector2Type_, 8, 1));
+
+    // do not show collector 2 if area is zero
+    telegram->read_value(collector2Area_, 6);
+    telegram->read_enumvalue(collector2Type_, 8, 1);
+    if (collector2Area_ == 0) {
+        collector2Area_ = EMS_VALUE_USHORT_NOTSET;
+        collector2Type_ = EMS_VALUE_UINT_NOTSET;
+    }
 }
 
 /*
@@ -738,7 +744,7 @@ bool Solar::set_collector2Type(const char * value, const int8_t id) {
 }
 
 bool Solar::set_cylPriority(const char * value, const int8_t id) {
-    uint8_t n = 0;
+    uint8_t n;
     if (!Helpers::value2enum(value, n, FL_(enum_cylprio))) {
         return false;
     }

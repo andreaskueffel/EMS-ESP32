@@ -65,8 +65,8 @@ enum DeviceValueUOM : uint8_t {
     DBM,      // 14
     MV,       // 15
     TIMES,    // 16
-    OCLOCK    // 17
-
+    OCLOCK,   // 17
+    SQM       // 18
 };
 
 // Home Assistant icons (https://materialdesignicons.com)

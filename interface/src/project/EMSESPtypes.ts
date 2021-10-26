@@ -94,7 +94,8 @@ export enum DeviceValueUOM {
   DBM,
   MV,
   TIMES,
-  OCLOCK
+  OCLOCK,
+  SQM
 }
 
 export const DeviceValueUOM_s = [
@@ -115,5 +116,6 @@ export const DeviceValueUOM_s = [
   'dBm',
   'mV',
   'time',
-  "o'clock"
+  "o'clock",
+  'sqm'
 ];

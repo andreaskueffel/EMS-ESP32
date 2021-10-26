@@ -43,7 +43,7 @@ class Solar : public EMSdevice {
     uint8_t  cylPumpMod_;        // PS5: modulation cylinder pump
     uint8_t  solarPump_;         // PS1: solar pump active
     uint8_t  valveStatus_;       // VS2: status 3-way valve for cylinder 2 (solar thermal system) with valve
-    uint8_t  solar2Pump_;        // PS4: solar 2 pump active
+    // uint8_t  solar2Pump_;        // PS4: solar 2 pump active
     uint8_t  M1_;                // M1:  differential control valve
 
     uint32_t energyLastHour_;
