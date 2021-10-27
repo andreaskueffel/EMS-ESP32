@@ -37,15 +37,25 @@ class Solar : public EMSdevice {
     int16_t  cylBottomTemp2_;    // TS5: Temperature sensor 2 cylinder, bottom cyl, or swimming pool (solar thermal system)
     int16_t  heatExchangerTemp_; // TS6: Heat exchanger temperature sensor
     int16_t  collector2Temp_;    // TS7: Temperature sensor for collector array 2
-    int16_t  TS14_;              // TS14: Bypass cylinder
-    int16_t  TS15_;              // TS15: Bypass return
+    int16_t  cylMiddleTemp_;     // TS14: Cylinder middle temp
+    int16_t  retHeatAssist_;     // TS15: return temperature heating assistance
     uint8_t  solarPumpMod_;      // PS1: modulation solar pump
     uint8_t  cylPumpMod_;        // PS5: modulation cylinder pump
     uint8_t  solarPump_;         // PS1: solar pump active
     uint8_t  valveStatus_;       // VS2: status 3-way valve for cylinder 2 (solar thermal system) with valve
-    // uint8_t  solar2Pump_;        // PS4: solar 2 pump active
-    uint8_t  M1_;                // M1:  differential control valve
+    uint8_t  solar2Pump_;        // PS4: solar 2 pump active
+    uint8_t  solar2PumpMod_;     // PS4: modulation solar pump
+    uint8_t  m1Valve_;           // M1:  heat assistance valve
+    uint8_t  m1Power_;           // M1:  heat assistance valve
 
+    // 0x363 heat counter
+    uint16_t heatCntFlowTemp_;
+    uint16_t heatCntRetTemp_;
+    uint8_t  heatCnt_;
+    uint16_t swapFlowTemp_;
+    uint16_t swapRetTemp_;
+
+    // 0x38E
     uint32_t energyLastHour_;
     uint32_t energyToday_;
     uint32_t energyTotal_;
@@ -77,6 +87,8 @@ class Solar : public EMSdevice {
     uint8_t solarPumpKick_;        // pump kick for vacuum collector, 00=off
     uint8_t plainWaterMode_;       // system does not use antifreeze, 00=off
     uint8_t doubleMatchFlow_;      // double Match Flow, 00=off
+    uint8_t solar2PumpMode_;       // 00=off, 01=PWM, 02=10V
+    uint8_t solar2PumpKick_;       // pump kick for vacuum collector, 00=off
 
     // telegram 0x035F
     uint8_t cylPriority_;  // 0 or 1
@@ -89,11 +101,11 @@ class Solar : public EMSdevice {
     uint8_t  collector2Type_; // Type of collector field 2, 01=flat, 02=vacuum
 
     // SM100wwTemperature - 0x07D6
-    uint8_t wwTemp_1_;
-    uint8_t wwTemp_3_;
-    uint8_t wwTemp_4_;
-    uint8_t wwTemp_5_;
-    uint8_t wwTemp_7_;
+    uint16_t wwTemp_1_;
+    uint16_t wwTemp_3_;
+    uint16_t wwTemp_4_;
+    uint16_t wwTemp_5_;
+    uint16_t wwTemp_7_;
 
     // SM100wwStatus - 0x07AA
     uint8_t wwPump_;
@@ -105,7 +117,6 @@ class Solar : public EMSdevice {
 
     std::deque<uint16_t> energy;
 
-    char    type_[20]; // Solar of WWC
     uint8_t id_;
 
     void process_SM10Monitor(std::shared_ptr<const Telegram> telegram);

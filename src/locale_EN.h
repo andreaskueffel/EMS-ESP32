@@ -609,15 +609,16 @@ MAKE_PSTR_LIST(wwTempStatus, F("wwtempstatus"), F("temperature switch in assigne
 MAKE_PSTR_LIST(wwTemp, F("wwtemp"), F("current temperature"))
 
 // solar
-MAKE_PSTR_LIST(type, F("type"), F("type"))
 MAKE_PSTR_LIST(collectorTemp, F("collectortemp"), F("collector temperature (TS1)"))
 MAKE_PSTR_LIST(collector2Temp, F("collector2temp"), F("collector 2 temperature (TS4)"))
 MAKE_PSTR_LIST(cylBottomTemp, F("cylbottomtemp"), F("cylinder bottom temperature (TS2)"))
 MAKE_PSTR_LIST(cyl2BottomTemp, F("cyl2bottomtemp"), F("second cylinder bottom temperature (TS5)"))
 MAKE_PSTR_LIST(heatExchangerTemp, F("heatexchangertemp"), F("heat exchanger temperature (TS6)"))
-MAKE_PSTR_LIST(TS14, F("ts14"), F("differential cylinder temperature (TS14)"))
-MAKE_PSTR_LIST(TS15, F("ts15"), F("differential return temperature (TS15)"))
-MAKE_PSTR_LIST(M1, F("m1active"), F("differential control active"))
+MAKE_PSTR_LIST(cylMiddleTemp, F("cylmiddletemp"), F("cylinder middle temperature (TS14)"))
+MAKE_PSTR_LIST(retHeatAssist, F("retheatassist"), F("return temperature heat assistance (TS15)"))
+// correct name for M1? value not found, try this:
+MAKE_PSTR_LIST(m1Valve, F("heatassistvalve"), F("heat assistance valve (M1)"))
+MAKE_PSTR_LIST(m1Power, F("heatassistpower"), F("heat assistance valve power (M1)"))
 MAKE_PSTR_LIST(collectorMaxTemp, F("collectormaxtemp"), F("maximum collector temperature"))
 MAKE_PSTR_LIST(collectorMinTemp, F("collectormintemp"), F("minimum collector temperature"))
 MAKE_PSTR_LIST(cylMaxTemp, F("cylmaxtemp"), F("maximum cylinder temperature"))
@@ -625,7 +626,8 @@ MAKE_PSTR_LIST(cylMaxTemp, F("cylmaxtemp"), F("maximum cylinder temperature"))
 MAKE_PSTR_LIST(solarPumpMod, F("solarpumpmod"), F("pump modulation (PS1)"))
 MAKE_PSTR_LIST(cylPumpMod, F("cylpumpmod"), F("cylinder pump modulation (PS5)"))
 MAKE_PSTR_LIST(solarPump, F("solarpump"), F("pump (PS1)"))
-// MAKE_PSTR_LIST(solar2Pump, F("solar2pump"), F("pump 2 (PS4)"))
+MAKE_PSTR_LIST(solar2Pump, F("solar2pump"), F("pump 2 (PS4)"))
+MAKE_PSTR_LIST(solar2PumpMod, F("solar2pumpmod"), F("pump 2 modulation (PS4)"))
 MAKE_PSTR_LIST(valveStatus, F("valvestatus"), F("valve status"))
 MAKE_PSTR_LIST(cylHeated, F("cylheated"), F("cyl heated"))
 MAKE_PSTR_LIST(collectorShutdown, F("collectorshutdown"), F("collector shutdown"))
@@ -659,6 +661,8 @@ MAKE_PSTR_LIST(solarPumpMode, F("solarpumpmode"), F("pump mode"))
 MAKE_PSTR_LIST(solarPumpKick, F("pumpkick"), F("pumpkick"))
 MAKE_PSTR_LIST(plainWaterMode, F("plainwatermode"), F("plain water mode"))
 MAKE_PSTR_LIST(doubleMatchFlow, F("doublematchflow"), F("doublematchflow"))
+MAKE_PSTR_LIST(solar2PumpMode, F("pump2mode"), F("pump 2 mode"))
+MAKE_PSTR_LIST(solar2PumpKick, F("pump2kick"), F("pumpkick 2"))
 
 // telegram 0x035F
 MAKE_PSTR_LIST(cylPriority, F("cylpriority"), F("cylinder priority"))
@@ -669,6 +673,13 @@ MAKE_PSTR_LIST(collector1Area, F("collector1area"), F("collector 1 area"))
 MAKE_PSTR_LIST(collector1Type, F("collector1type"), F("collector 1 type"))
 MAKE_PSTR_LIST(collector2Area, F("collector2area"), F("collector 2 area"))
 MAKE_PSTR_LIST(collector2Type, F("collector2type"), F("collector 2 type"))
+
+// telegram 0x0363 heatCounter
+MAKE_PSTR_LIST(heatCntFlowTemp, F("heatcntflowtemp"), F("heat counter flow temperature"))
+MAKE_PSTR_LIST(heatCntRetTemp, F("heatcntrettemp"), F("heat counter return temperature"))
+MAKE_PSTR_LIST(heatCnt, F("heatcnt"), F("heat counter impulses"))
+MAKE_PSTR_LIST(swapFlowTemp, F("swapflowtemp"), F("swap flow temperature"))
+MAKE_PSTR_LIST(swapRetTemp, F("swaprettemp"), F("swap return temperature"))
 
 // switch
 MAKE_PSTR_LIST(activated, F("activated"), F("activated"))
