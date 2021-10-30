@@ -610,12 +610,12 @@ MAKE_PSTR_LIST(wwTemp, F("wwtemp"), F("current temperature"))
 
 // solar
 MAKE_PSTR_LIST(collectorTemp, F("collectortemp"), F("collector temperature (TS1)"))
-MAKE_PSTR_LIST(collector2Temp, F("collector2temp"), F("collector 2 temperature (TS4)"))
+MAKE_PSTR_LIST(collector2Temp, F("collector2temp"), F("collector 2 temperature (TS7)"))
 MAKE_PSTR_LIST(cylBottomTemp, F("cylbottomtemp"), F("cylinder bottom temperature (TS2)"))
 MAKE_PSTR_LIST(cyl2BottomTemp, F("cyl2bottomtemp"), F("second cylinder bottom temperature (TS5)"))
 MAKE_PSTR_LIST(heatExchangerTemp, F("heatexchangertemp"), F("heat exchanger temperature (TS6)"))
-MAKE_PSTR_LIST(cylMiddleTemp, F("cylmiddletemp"), F("cylinder middle temperature (TS14)"))
-MAKE_PSTR_LIST(retHeatAssist, F("retheatassist"), F("return temperature heat assistance (TS15)"))
+MAKE_PSTR_LIST(cylMiddleTemp, F("cylmiddletemp"), F("cylinder middle temperature (TS3)"))
+MAKE_PSTR_LIST(retHeatAssist, F("retheatassist"), F("return temperature heat assistance (TS4)"))
 // correct name for M1? value not found, try this:
 MAKE_PSTR_LIST(m1Valve, F("heatassistvalve"), F("heat assistance valve (M1)"))
 MAKE_PSTR_LIST(m1Power, F("heatassistpower"), F("heat assistance valve power (M1)"))

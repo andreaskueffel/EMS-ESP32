@@ -448,17 +448,11 @@ void Solar::process_SM100Status(std::shared_ptr<const Telegram> telegram) {
     has_update(telegram->read_bitvalue(collectorShutdown_, 3, 0)); // collector shutdown
 
     solarpumpmod = solar2PumpMod_;
-    has_update(telegram->read_value(solar2PumpMod_, 7));
+    has_update(telegram->read_value(solar2PumpMod_, 4));
     has_update(telegram->read_value(m1Power_, 13));
     // mask out boost
     if (solarpumpmod == 0 && solar2PumpMod_ == 100 && solarPumpMinMod_ > 0) {
         solar2PumpMod_ = solarPumpMinMod_;  // set to minimum
-    }
-    // position of flag unknown, create from Moduation
-    if (solar2PumpMod_ == 0) {
-        solar2Pump_ = 1;
-    } else if (solar2PumpMod_ <= 100) {
-        solar2Pump_ = 0;
     }
 }
 
@@ -471,7 +465,7 @@ void Solar::process_SM100Status(std::shared_ptr<const Telegram> telegram) {
 void Solar::process_SM100Status2(std::shared_ptr<const Telegram> telegram) {
     has_update(telegram->read_bitvalue(valveStatus_, 4, 2)); // on if bit 2 set
     has_update(telegram->read_bitvalue(solarPump_, 10, 2));  // on if bit 2 set
-    // has_update(telegram->read_bitvalue(solar2Pump_, ?, 2));  // on if bit 2 set
+    has_update(telegram->read_bitvalue(solar2Pump_, 1, 2));  // on if bit 2 set
     has_update(telegram->read_bitvalue(m1Valve_, 7, 2)); // values 8/4 seen
 }
 
