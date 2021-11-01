@@ -43,8 +43,8 @@ class Solar : public EMSdevice {
     uint8_t  cylPumpMod_;        // PS5: modulation cylinder pump
     uint8_t  solarPump_;         // PS1: solar pump active
     uint8_t  valveStatus_;       // VS2: status 3-way valve for cylinder 2 (solar thermal system) with valve
-    uint8_t  solar2Pump_;        // PS4: solar 2 pump active
-    uint8_t  solar2PumpMod_;     // PS4: modulation solar pump
+    uint8_t  solarPump2_;        // PS4: solar pump 2 active
+    uint8_t  solarPump2Mod_;     // PS4: modulation solar pump
     uint8_t  m1Valve_;           // M1:  heat assistance valve
     uint8_t  m1Power_;           // M1:  heat assistance valve
 
@@ -87,11 +87,24 @@ class Solar : public EMSdevice {
     uint8_t solarPumpKick_;        // pump kick for vacuum collector, 00=off
     uint8_t plainWaterMode_;       // system does not use antifreeze, 00=off
     uint8_t doubleMatchFlow_;      // double Match Flow, 00=off
-    uint8_t solar2PumpMode_;       // 00=off, 01=PWM, 02=10V
-    uint8_t solar2PumpKick_;       // pump kick for vacuum collector, 00=off
+
+    // telegram 0x035D
+    uint8_t collector2MaxTemp_;     // maximum allowed collectorTemp array 1
+    uint8_t collector2MinTemp_;     // minimum allowed collectorTemp array 1
+    uint8_t solarPump2MinMod_;      // minimum modulation setting
+    uint8_t solarPump2TurnoffDiff_; // solar pump turnoff collector/cyl diff
+    uint8_t solarPump2TurnonDiff_;  // solar pump turnon collector/cyl diff
+    uint8_t solarPump2Kick_;        // pump kick for vacuum collector, 00=off
+    uint8_t solarPump2Mode_;        // 00=off, 01=PWM, 02=10V
+
+    // telegram 0x35C Heat assistance
+    uint8_t solarHeatAssist_; // is *10
 
     // telegram 0x035F
     uint8_t cylPriority_;  // 0 or 1
+
+    // telegram 0x361 Differential control
+    uint8_t diffControl_; // is *10
 
     // telegram 0x380
     uint8_t  climateZone_;    // climate zone identifier
@@ -110,19 +123,29 @@ class Solar : public EMSdevice {
     // SM100wwStatus - 0x07AA
     uint8_t wwPump_;
 
-    // SM10Config - 0x96
-    uint8_t  wwMinTemp_;
-    uint8_t  maxFlow_;    // set this to calculate power
-    uint32_t solarPower_; // calculated from maxFlow
+    // SM100wwParam - 0x07A6
+    uint8_t wwMaxTemp_;
+    uint8_t wwTemp_;
+    uint8_t wwRedTemp_;
 
-    std::deque<uint16_t> energy;
+    // SM100wwCirc - 0x07A5
+    uint8_t wwCirc_;
+    uint8_t wwCircMode_;
+
+    // SM10Config - 0x96
+    uint8_t wwMinTemp_;
+    uint8_t maxFlow_;    // set this to calculate power
+    int16_t solarPower_; // calculated from maxFlow
+
+    std::deque<int16_t> energy;
 
     uint8_t id_;
 
     void process_SM10Monitor(std::shared_ptr<const Telegram> telegram);
     void process_SM10Config(std::shared_ptr<const Telegram> telegram);
     void process_SM100SystemConfig(std::shared_ptr<const Telegram> telegram);
-    void process_SM100SolarCircuitConfig(std::shared_ptr<const Telegram> telegram);
+    void process_SM100CircuitConfig(std::shared_ptr<const Telegram> telegram);
+    void process_SM100Circuit2Config(std::shared_ptr<const Telegram> telegram);
     void process_SM100ParamCfg(std::shared_ptr<const Telegram> telegram);
     void process_SM100Monitor(std::shared_ptr<const Telegram> telegram);
     void process_SM100Monitor2(std::shared_ptr<const Telegram> telegram);
@@ -136,9 +159,14 @@ class Solar : public EMSdevice {
     void process_SM100Energy(std::shared_ptr<const Telegram> telegram);
     void process_SM100Time(std::shared_ptr<const Telegram> telegram);
 
+    void process_SM100HeatAssist(std::shared_ptr<const Telegram> telegram);
+    void process_SM100Differential(std::shared_ptr<const Telegram> telegram);
+
     void process_SM100wwTemperature(std::shared_ptr<const Telegram> telegram);
     void process_SM100wwStatus(std::shared_ptr<const Telegram> telegram);
     void process_SM100wwCommand(std::shared_ptr<const Telegram> telegram);
+    void process_SM100wwCirc(std::shared_ptr<const Telegram> telegram);
+    void process_SM100wwParam(std::shared_ptr<const Telegram> telegram);
 
     void process_ISM1StatusMessage(std::shared_ptr<const Telegram> telegram);
     void process_ISM1Set(std::shared_ptr<const Telegram> telegram);
@@ -152,6 +180,12 @@ class Solar : public EMSdevice {
     bool set_TurnonDiff(const char * value, const int8_t id);
     bool set_TurnoffDiff(const char * value, const int8_t id);
 
+    bool set_Collector2MaxTemp(const char * value, const int8_t id);
+    bool set_Collector2MinTemp(const char * value, const int8_t id);
+    bool set_Pump2MinMod(const char * value, const int8_t id);
+    bool set_TurnonDiff2(const char * value, const int8_t id);
+    bool set_TurnoffDiff2(const char * value, const int8_t id);
+
     bool set_SM10MaxFlow(const char * value, const int8_t id);
     // SM100
     bool set_heatTransferSystem(const char * value, const int8_t id);
@@ -161,6 +195,7 @@ class Solar : public EMSdevice {
     bool set_solarEnabled(const char * value, const int8_t id);
     bool set_solarMode(const char * value, const int8_t id);
     bool set_solarPumpKick(const char * value, const int8_t id);
+    bool set_solarPump2Kick(const char * value, const int8_t id);
     bool set_plainWaterMode(const char * value, const int8_t id);
     bool set_doubleMatchFlow(const char * value, const int8_t id);
     bool set_climateZone(const char * value, const int8_t id);
@@ -169,6 +204,14 @@ class Solar : public EMSdevice {
     bool set_collector2Area(const char * value, const int8_t id);
     bool set_collector2Type(const char * value, const int8_t id);
     bool set_cylPriority(const char * value, const int8_t id);
+    bool set_heatAssist(const char * value, const int8_t id);
+    bool set_diffControl(const char * value, const int8_t id);
+
+    bool set_wwTemp(const char * value, const int8_t id);
+    bool set_wwMaxTemp(const char * value, const int8_t id);
+    bool set_wwRedTemp(const char * value, const int8_t id);
+    bool set_wwCirc(const char * value, const int8_t id);
+    bool set_wwCircMode(const char * value, const int8_t id);
 };
 
 } // namespace emsesp
