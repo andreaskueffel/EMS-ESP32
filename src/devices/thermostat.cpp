@@ -965,9 +965,9 @@ void Thermostat::process_RC300WWmode(std::shared_ptr<const Telegram> telegram) {
     has_update(telegram->read_value(wwChargeDuration_, 10)); // value in steps of 15 min
     has_update(telegram->read_value(wwCharge_, 11));
 
-    has_update(telegram->read_value(wwDisinfect_, 5)); // 0-off, 0xFF on
-    has_update(telegram->read_value(wwDisinfectHour_, 6));
-    has_update(telegram->read_value(wwDisinfectDay_, 7)); // 0-6 Day of week, 7 every day
+    has_update(telegram->read_value(wwDisinfect_, 5));     // 0-off, 0xFF on
+    has_update(telegram->read_value(wwDisinfectHour_, 6)); // value in steps of 15 min
+    has_update(telegram->read_value(wwDisinfectDay_, 7));  // 0-6 Day of week, 7 every day
 }
 
 // types 0x31D and 0x31E
@@ -1485,17 +1485,23 @@ bool Thermostat::set_wwDisinfectDay(const char * value, const int8_t id) {
 bool Thermostat::set_wwDisinfectHour(const char * value, const int8_t id) {
     int set;
     if (!Helpers::value2number(value, set)) {
-        LOG_WARNING(F("Set ww disinfection hour: Invalid"));
+        LOG_WARNING(F("Set ww disinfection time: Invalid"));
         return false;
     }
-    if (set < 0 || set > 23) {
-        LOG_WARNING(F("Set ww disinfection hour: Invalid"));
-        return false;
-    }
-    LOG_INFO(F("Setting ww disinfection hour to %s"), value);
     if ((model() == EMS_DEVICE_FLAG_RC300) || (model() == EMS_DEVICE_FLAG_RC100)) {
-        write_command(0x2F5, 6, set, 0x2F5);
+        uint8_t t = (set + 8) / 15;
+        if (t > 95) {
+            LOG_WARNING(F("Set ww disinfection time: Invalid"));
+            return false;
+        }
+        LOG_INFO(F("Setting ww disinfection time to %s minutes"), value);
+        write_command(0x2F5, 6, t, 0x2F5);
     } else {
+        if (set < 0 || set > 23) {
+            LOG_WARNING(F("Set ww disinfection hour: Invalid"));
+            return false;
+        }
+        LOG_INFO(F("Setting ww disinfection hour to %s"), value);
         write_command(0x37, 6, set, 0x37);
     }
     return true;
@@ -2480,12 +2486,12 @@ void Thermostat::register_device_values() {
         register_device_value(TAG_DEVICE_DATA_WW,
                               &wwDisinfectHour_,
                               DeviceValueType::UINT,
-                              nullptr,
-                              FL_(wwDisinfectHour),
-                              DeviceValueUOM::OCLOCK,
+                              FL_(mul15),
+                              FL_(wwDisinfectTime),
+                              DeviceValueUOM::MINUTES,
                               MAKE_CF_CB(set_wwDisinfectHour),
                               0,
-                              23);
+                              1431);
         break;
     case EMS_DEVICE_FLAG_RC20_N:
     case EMS_DEVICE_FLAG_RC20:
