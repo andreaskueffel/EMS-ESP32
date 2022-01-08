@@ -761,6 +761,14 @@ app.post(EMSESP_BOARDPROFILE_ENDPOINT, (req, res) => {
     data.tx_gpio = 4
     data.pbutton_gpio = 34
     data.phy_type = 1
+  } else if (board_profile == 'WT32ETH01') {
+    // WT32-ETH01
+    data.led_gpio = 0
+    data.dallas_gpio = 15
+    data.rx_gpio = 12
+    data.tx_gpio = 14
+    data.pbutton_gpio = 39
+    data.phy_type = 1
   }
 
   res.json(data)

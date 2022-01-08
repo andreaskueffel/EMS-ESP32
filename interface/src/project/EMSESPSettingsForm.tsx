@@ -219,7 +219,7 @@ class EMSESPSettingsForm extends Component<EMSESPSettingsFormProps> {
                   'isNumber',
                   'minNumber:0',
                   'maxNumber:40',
-                  'matchRegexp:^((?!6|7|8|9|10|11|12|14|15|20|24|28|29|30|31)[0-9]*)$'
+                  'matchRegexp:^((?!6|7|8|9|10|11|20|24|28|29|30|31)[0-9]*)$'
                 ]}
                 errorMessages={[
                   'GPIO is required',
@@ -245,7 +245,7 @@ class EMSESPSettingsForm extends Component<EMSESPSettingsFormProps> {
                   'isNumber',
                   'minNumber:0',
                   'maxNumber:40',
-                  'matchRegexp:^((?!6|7|8|9|10|11|12|14|15|20|24|28|29|30|31)[0-9]*)$'
+                  'matchRegexp:^((?!6|7|8|9|10|11|20|24|28|29|30|31)[0-9]*)$'
                 ]}
                 errorMessages={[
                   'GPIO is required',
@@ -271,7 +271,7 @@ class EMSESPSettingsForm extends Component<EMSESPSettingsFormProps> {
                   'isNumber',
                   'minNumber:0',
                   'maxNumber:40',
-                  'matchRegexp:^((?!6|7|8|9|10|11|12|14|15|20|24|28|29|30|31)[0-9]*)$'
+                  'matchRegexp:^((?!6|7|8|9|10|11|20|24|28|29|30|31)[0-9]*)$'
                 ]}
                 errorMessages={[
                   'GPIO is required',
@@ -297,7 +297,7 @@ class EMSESPSettingsForm extends Component<EMSESPSettingsFormProps> {
                   'isNumber',
                   'minNumber:0',
                   'maxNumber:40',
-                  'matchRegexp:^((?!6|7|8|9|10|11|12|14|15|20|24|28|29|30|31)[0-9]*)$'
+                  'matchRegexp:^((?!6|7|8|9|10|11|20|24|28|29|30|31)[0-9]*)$'
                 ]}
                 errorMessages={[
                   'GPIO is required',
@@ -323,7 +323,7 @@ class EMSESPSettingsForm extends Component<EMSESPSettingsFormProps> {
                   'isNumber',
                   'minNumber:0',
                   'maxNumber:40',
-                  'matchRegexp:^((?!6|7|8|9|10|11|12|14|15|20|24|28|29|30|31)[0-9]*)$'
+                  'matchRegexp:^((?!6|7|8|9|10|11|20|24|28|29|30|31)[0-9]*)$'
                 ]}
                 errorMessages={[
                   'GPIO is required',

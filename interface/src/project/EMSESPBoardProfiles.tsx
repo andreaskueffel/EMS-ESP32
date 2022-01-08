@@ -10,7 +10,8 @@ export const BOARD_PROFILES: BoardProfiles = {
   NODEMCU: 'NodeMCU 32S',
   'MH-ET': 'MH-ET Live D1 Mini',
   LOLIN: 'Lolin D32',
-  OLIMEX: 'Olimex ESP32-EVB'
+  OLIMEX: 'Olimex ESP32-EVB',
+  WT32ETH01: 'WT32-ETH01'
 };
 
 export function boardProfileSelectItems() {

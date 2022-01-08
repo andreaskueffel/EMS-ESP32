@@ -306,7 +306,7 @@ void System::wifi_tweak() {
 // See https://diyprojects.io/esp32-how-to-use-gpio-digital-io-arduino-code/#.YFpVEq9KhjG
 // and https://nodemcu.readthedocs.io/en/dev-esp32/modules/gpio/
 bool System::is_valid_gpio(uint8_t pin) {
-    if ((pin == 1) || (pin >= 6 && pin <= 12) || (pin >= 14 && pin <= 15) || (pin == 20) || (pin == 24) || (pin >= 28 && pin <= 31) || (pin > 40)) {
+    if ((pin == 1) || (pin >= 6 && pin <= 11) || (pin == 20) || (pin == 24) || (pin >= 28 && pin <= 31) || (pin > 40)) {
         return false; // bad pin
     }
     return true;
@@ -1099,6 +1099,8 @@ bool System::load_board_profile(std::vector<uint8_t> & data, const std::string &
         data = {2, 18, 17, 16, 0, PHY_type::PHY_TYPE_NONE}; // Lolin D32
     } else if (board_profile == "OLIMEX") {
         data = {0, 0, 36, 4, 34, PHY_type::PHY_TYPE_LAN8720}; // Olimex ESP32-EVB (uses U1TXD/U1RXD/BUTTON, no LED or Dallas)
+    } else if (board_profile == "WT32ETH01") {
+        data = {0, 15, 12, 14, 0, PHY_type::PHY_TYPE_LAN8720}; // WT32-ETH01 (LAN8720)
     } else {
         data = {EMSESP_DEFAULT_LED_GPIO,
                 EMSESP_DEFAULT_DALLAS_GPIO,
